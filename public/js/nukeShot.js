@@ -1,10 +1,10 @@
 // nukeShot class - represents the tank shooting a nuke powerup
 // does nukeShot need a shotid?
-function nukeShot(shotid, tankid, spos, angle, color) {
+function nukeShot(shotid, tankid, spos, angle) {
     this.pos = createVector(spos.x, spos.y);
     this.vel = p5.Vector.fromAngle(angle);
     this.vel.mult(10);
-    this.color = color;
+    this.color = ;
     this.shotid = shotid;
     this.tankid = tankid;
   
@@ -15,16 +15,10 @@ function nukeShot(shotid, tankid, spos, angle, color) {
     // Render the nuke to the screen by Alan F
     this.render = function() {
         push();
-        
+        // fill('yellow');
+        // ellipse(?, ?, ?, ?);
+        // suqare(?, ?, ?);
     }
-    // original render function
-    /*this.render = function() {
-      push();
-      stroke(this.color);
-      strokeWeight(8);
-      point(this.pos.x, this.pos.y);
-      pop();
-    }*/
   
     // Check if the nuke hits another tank
     // in the future this will include if it hits an obstacle as well
