@@ -125,11 +125,22 @@ function draw() {
 
     if (key == ' ') {                       // Fire Shell
       const shotid = random(0, 50000);
+      // if the shot is a nuke
+      if (tanks[myTankIndex].hasNuke) {
+        shots.push(new nukeShot(shotid, tanks[myTankIndex].tankid,
+          tanks[myTankIndex].pos, tanks[myTankIndex].heading));
+        let newNukeShot = { x: tanks[myTankIndex].pos.x, 
+          y: tanks[myTankIndex].pos.y, heading: tanks[myTankIndex].heading,
+          shotid: shotid, tankid: tanks[myTankIndex].tankid };
+        socket.emit('ClientNewNuke', newNukeShot);
+      }
+      else {
       shots.push(new Shot(shotid, tanks[myTankIndex].tankid, tanks[myTankIndex].pos, 
         tanks[myTankIndex].heading, tanks[myTankIndex].tankColor));
       let newShot = { x: tanks[myTankIndex].pos.x, y: tanks[myTankIndex].pos.y, heading: tanks[myTankIndex].heading, 
         tankColor: tanks[myTankIndex].tankColor, shotid: shotid, tankid: tanks[myTankIndex].tankid };
       socket.emit('ClientNewShot', newShot);
+      }
       return;
     } else if (keyCode == RIGHT_ARROW) {  // Move Right
       tanks[myTankIndex].setRotation(0.1);
@@ -275,6 +286,17 @@ function draw() {
       // Add this shot to the end of the array
       let c = color(data.tankColor.levels[0], data.tankColor.levels[1], data.tankColor.levels[2]);
       shots.push(new Shot(data.shotid, data.tankid, createVector(data.x, data.y), data.heading, c));
+    }
+
+    // Added by Alan F
+    function ServerNewNuke(data) {
+      // Check if shot is already in list
+      if (shots !== undefined) {
+        for (var i = 0; i < shots.length; i++) {
+          if (shots[i].shotid == data.shotid)
+            return; // don't add 
+        }
+      }
     }
 
     function ServerMoveShot(data) {

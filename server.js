@@ -179,6 +179,20 @@ io.sockets.on('connection',
 
       });
 
+    // New Nuke Object, by Alan F
+    socket.on('ClientNewNuke',
+      function(data) {
+
+        // Data comes in as whatever was sent, including objects
+        console.log('New Nuke: ' + JSON.stringify(data));
+
+        // Add this nuke to the end of the array
+        shots.push(data);
+
+        // Send the change out
+        io.sockets.emit('ServerNewNuke', data);
+      });
+
 
     // Connected client moving Shots
     socket.on('ClientMoveShot',

@@ -3,7 +3,7 @@
 function nukeShot(shotid, tankid, spos, angle) {
     this.pos = createVector(spos.x, spos.y);
     this.vel = p5.Vector.fromAngle(angle);
-    this.vel.mult(10);
+    this.vel.mult(3);
     this.color = 'yellow';
     this.shotid = shotid;
     this.tankid = tankid;
@@ -15,6 +15,10 @@ function nukeShot(shotid, tankid, spos, angle) {
     // Render the nuke to the screen by Alan F
     this.render = function() {
         push();
+        fill('yellow');
+        ellipse(this.pos.x, this.pos.y, 18, 18);
+        point(this.pos.x, this.pos.y);
+        pop();
         // fill('yellow');
         // ellipse(?, ?, ?, ?);
         // suqare(?, ?, ?);
@@ -44,7 +48,7 @@ function nukeShot(shotid, tankid, spos, angle) {
         return true;
       }
       if (this.pos.y > height || this.pos.y < 0) {
-        //Will need to create splash damage before shot expires - Blake
+        //Will need to create splash damage before shot expires - Blake & Alan
 
         socket.emit('ClientRemoveShot', this.shotid);
         return true;

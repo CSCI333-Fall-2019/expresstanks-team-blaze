@@ -57,7 +57,7 @@ function Tank(startPos, tankColor, newtankid, playerName) {
           strokeWeight(0);
           if (this.hasNuke) {
             fill('yellow');
-            ellipse(0,0,30,30);
+            ellipse(0,0,18,18);
           }
         }
         pop();
