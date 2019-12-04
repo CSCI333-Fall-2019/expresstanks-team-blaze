@@ -25,7 +25,9 @@ function nukeShot(shotid, tankid, spos, angle) {
     this.hits = function(enemyTank) {
       var d = dist(this.pos.x, this.pos.y, enemyTank.pos.x, enemyTank.pos.y);
       if (d < enemyTank.r) {
-        // splash damage needed as well here - blake
+        // splash damage needed as well here - Blake & Alan
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+
         return true;
       } else {
         return false;
@@ -35,7 +37,9 @@ function nukeShot(shotid, tankid, spos, angle) {
     // Check if the shot moves off screen.  In which case, kill it
     this.offscreen = function() {
       if (this.pos.x > width || this.pos.x < 0) {
-        //Will need to create splash damage before shot expires - Blake
+        //Will need to create splash damage before shot expires - Blake & Alan
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+        
         socket.emit('ClientRemoveShot', this.shotid);
         return true;
       }
