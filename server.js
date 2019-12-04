@@ -203,7 +203,7 @@ io.sockets.on('connection',
             var dist = Math.sqrt( Math.pow((shots[i].x-tanks[t].x), 2) + Math.pow((shots[i].y-tanks[t].y), 2) );
             console.log('Dist.: ' + dist);
 
-            if(dist < 20) {
+            if(dist < 20.0) {
               console.log('HIT ------------------------');
               console.log('shotid: ' + shots[i].shotid);
               console.log('Shot-tankid: ' + shots[i].tankid);
