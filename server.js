@@ -133,6 +133,7 @@ io.sockets.on('connection',
                 if(tanks[i].x > 300 && tanks[i].x < 500){
                   //add nuke
                   tanks[i].hasNuke = true;
+                  io.sockets.emit('ServerTankHasNuke', tanks[i].tankid);
                   //console.log("DO YOU SEE ME?");
                   //console.log("DO YOU SEE ME?");
                   //console.log("DO YOU SEE ME?");
@@ -147,6 +148,8 @@ io.sockets.on('connection',
         socket.broadcast.emit('ServerMoveTank', data);
 
       });
+
+      // have the tank's id
 
     socket.on('disconnect', function() {
       console.log("Client has disconnected: " + socket.id);

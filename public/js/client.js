@@ -45,6 +45,7 @@ function setup() {
   socket.on('ServerResetAll', ServerResetAll);
   socket.on('ServerMoveShot', ServerMoveShot);
   socket.on('ServerNewShot', ServerNewShot);
+  socket.on('ServerTankHasNuke', ServerTankHasNuke);
 
   // Join (or start) a new game
   socket.on('connect', function(data) {
@@ -251,6 +252,15 @@ function draw() {
             break;
           }
       }
+    }
+
+    // Made by Blake P and Alan F with help from Brett
+    function ServerTankHasNuke(tankId) {
+      for(var i = tanks.length - 1; i >= 0; i--)
+        if (tankId == tanks[i].tankId) {
+          tanks[i].hasNuke = true;
+        }
+      return;
     }
 
     function ServerNewShot(data) {

@@ -42,16 +42,10 @@ function Tank(startPos, tankColor, newtankid, playerName) {
         else {  // Draw Tank
           if(this.tankid==mytankid) {
             stroke('white');
-            console.log("\n\n\nTANK INFO:");
-            console.log(this.hasNuke);
-            if (this.hasNuke) {
-              fill('yellow');
-              ellipse(0,0,300,300);
-              console.log("PLEASE SEE ME");
-            }
+     
           }
           else
-            stroke('gray');
+          stroke('gray');
           strokeWeight(2);
           fill(this.tankColor);
           rect(0, 0, tankWidth, tankHeight);
@@ -59,6 +53,10 @@ function Tank(startPos, tankColor, newtankid, playerName) {
           rect(0, -20, 4, 20);
           strokeWeight(6);
           point(0, 0);
+          if (this.hasNuke) {
+            fill('yellow');
+            ellipse(0,0,300,300);
+          }
         }
         pop();
 
