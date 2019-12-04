@@ -119,7 +119,7 @@ io.sockets.on('connection',
       function(data) {
 
         // Data comes in as whatever was sent, including objects
-        console.log('Move Tank: ' + JSON.stringify(data));
+        //console.log('Move Tank: ' + JSON.stringify(data));
 
         // Change the local tank table
         if(tanks !== undefined) {
@@ -128,6 +128,14 @@ io.sockets.on('connection',
                   tanks[i].x = Number(data.x);
                   tanks[i].y = Number(data.y);
                   tanks[i].heading = data.heading;
+                }
+                // Checking if in zone of nuke, give tank nuke
+                if(tanks[i].x > 300 && tanks[i].x < 500){
+                  //add nuke
+                  tanks[i].hasNuke = true;
+                  //console.log("DO YOU SEE ME?");
+                  //console.log("DO YOU SEE ME?");
+                  //console.log("DO YOU SEE ME?");
                 }
             }
         }
@@ -177,7 +185,7 @@ io.sockets.on('connection',
       function(data) {
 
         // Data comes in as whatever was sent, including objects
-        console.log('Move Shot: ' + JSON.stringify(data));
+        //console.log('Move Shot: ' + JSON.stringify(data));
 
         // Find the correct shot and save the index
         var i = 0;

@@ -229,7 +229,7 @@ function draw() {
     function ServerMoveTank(data) {
 
       if(DEBUG && DEBUG==1)
-        console.log('Move Tank: ' + JSON.stringify(data));
+        //console.log('Move Tank: ' + JSON.stringify(data));
 
       if(!tanks || !tanks[myTankIndex] || !data || !data.tankid || tanks[myTankIndex].tankid == data.tankid)
         return;
@@ -239,6 +239,15 @@ function draw() {
             tanks[i].pos.x = Number(data.x);
             tanks[i].pos.y = Number(data.y);
             tanks[i].heading = Number(data.heading);
+            // Checking if in zone of nuke, give tank nuke
+            if(tanks[i].x > 300 && tanks[i].x < 500){
+              //add nuke
+              tanks[i].hasNuke = true;
+              //console.log("DO YOU SEE ME?");
+              //console.log("DO YOU SEE ME?");
+              //console.log("DO YOU SEE ME?");
+
+            }
             break;
           }
       }

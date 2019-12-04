@@ -14,7 +14,8 @@ function Tank(startPos, tankColor, newtankid, playerName) {
     this.tankColor = tankColor;
     this.tankid = newtankid;
     this.playerName = playerName;
-
+    // tank does not start with nuke - Blake
+    this.hasNuke = false;
     // For an optional boost feature
     this.boosting = function(b) {
       this.isBoosting = b;
@@ -39,8 +40,16 @@ function Tank(startPos, tankColor, newtankid, playerName) {
           ellipse(0, 0, 40, 40);
         }
         else {  // Draw Tank
-          if(this.tankid==mytankid)
+          if(this.tankid==mytankid) {
             stroke('white');
+            console.log("\n\n\nTANK INFO:");
+            console.log(this.hasNuke);
+            if (this.hasNuke) {
+              fill('yellow');
+              ellipse(0,0,300,300);
+              console.log("PLEASE SEE ME");
+            }
+          }
           else
             stroke('gray');
           strokeWeight(2);

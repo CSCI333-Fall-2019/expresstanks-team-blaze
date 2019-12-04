@@ -4,7 +4,7 @@ function nukeShot(shotid, tankid, spos, angle) {
     this.pos = createVector(spos.x, spos.y);
     this.vel = p5.Vector.fromAngle(angle);
     this.vel.mult(10);
-    this.color = ;
+    this.color = 'yellow';
     this.shotid = shotid;
     this.tankid = tankid;
   
@@ -25,6 +25,7 @@ function nukeShot(shotid, tankid, spos, angle) {
     this.hits = function(enemyTank) {
       var d = dist(this.pos.x, this.pos.y, enemyTank.pos.x, enemyTank.pos.y);
       if (d < enemyTank.r) {
+        // splash damage needed as well here - blake
         return true;
       } else {
         return false;
@@ -34,15 +35,16 @@ function nukeShot(shotid, tankid, spos, angle) {
     // Check if the shot moves off screen.  In which case, kill it
     this.offscreen = function() {
       if (this.pos.x > width || this.pos.x < 0) {
+        //Will need to create splash damage before shot expires - Blake
         socket.emit('ClientRemoveShot', this.shotid);
         return true;
       }
       if (this.pos.y > height || this.pos.y < 0) {
+        //Will need to create splash damage before shot expires - Blake
+
         socket.emit('ClientRemoveShot', this.shotid);
         return true;
       }
       return false;
     }
-  
-  
   }
