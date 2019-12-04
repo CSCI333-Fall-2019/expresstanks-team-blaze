@@ -45,6 +45,7 @@ function setup() {
   socket.on('ServerResetAll', ServerResetAll);
   socket.on('ServerMoveShot', ServerMoveShot);
   socket.on('ServerNewShot', ServerNewShot);
+  // Added socket method handler - Blake and Alan
   socket.on('ServerTankHasNuke', ServerTankHasNuke);
 
   // Join (or start) a new game
@@ -244,10 +245,6 @@ function draw() {
             if(tanks[i].x > 300 && tanks[i].x < 500){
               //add nuke
               tanks[i].hasNuke = true;
-              //console.log("DO YOU SEE ME?");
-              //console.log("DO YOU SEE ME?");
-              //console.log("DO YOU SEE ME?");
-
             }
             break;
           }
@@ -255,9 +252,11 @@ function draw() {
     }
 
     // Made by Blake P and Alan F with help from Brett
-    function ServerTankHasNuke(tankId) {
+    function ServerTankHasNuke(tankid) {
+      // Checks to see which tanks have a nuke
       for(var i = tanks.length - 1; i >= 0; i--)
-        if (tankId == tanks[i].tankId) {
+        if (tankid === tanks[i].tankid) {
+          // Give nuke to specified tank
           tanks[i].hasNuke = true;
         }
       return;

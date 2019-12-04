@@ -134,9 +134,6 @@ io.sockets.on('connection',
                   //add nuke
                   tanks[i].hasNuke = true;
                   io.sockets.emit('ServerTankHasNuke', tanks[i].tankid);
-                  //console.log("DO YOU SEE ME?");
-                  //console.log("DO YOU SEE ME?");
-                  //console.log("DO YOU SEE ME?");
                 }
             }
         }

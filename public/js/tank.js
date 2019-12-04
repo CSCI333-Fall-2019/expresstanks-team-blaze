@@ -53,9 +53,11 @@ function Tank(startPos, tankColor, newtankid, playerName) {
           rect(0, -20, 4, 20);
           strokeWeight(6);
           point(0, 0);
+          //Adding KISS Nuke design on top of tank - Blake and Alan
+          strokeWeight(0);
           if (this.hasNuke) {
             fill('yellow');
-            ellipse(0,0,300,300);
+            ellipse(0,0,30,30);
           }
         }
         pop();
