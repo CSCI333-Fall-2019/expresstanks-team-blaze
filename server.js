@@ -130,11 +130,16 @@ io.sockets.on('connection',
                   tanks[i].heading = data.heading;
                 }
                 // Checking if in zone of nuke, give tank nuke
-                if(tanks[i].x > 300 && tanks[i].x < 500){
+                if(tanks[i].x > 300 && tanks[i].x < 500) {
                   //add nuke
                   tanks[i].hasNuke = true;
                   io.sockets.emit('ServerTankHasNuke', tanks[i].tankid);
                 }
+                // if tank is in nuke splash dmg
+                /*
+                io.sockets.emit('ServerTankRemove', tanks[i].tankid);
+                tanks.splice(i,1);
+                */
             }
         }
 
@@ -179,7 +184,7 @@ io.sockets.on('connection',
 
       });
 
-    // New Nuke Object, by Alan F
+    // New Nuke Object, by Alan and Blake
     socket.on('ClientNewNuke',
       function(data) {
 
@@ -225,7 +230,7 @@ io.sockets.on('connection',
             var dist = Math.sqrt( Math.pow((shots[i].x-tanks[t].x), 2) + Math.pow((shots[i].y-tanks[t].y), 2) );
             console.log('Dist.: ' + dist);
 
-            if(dist < 20.0) {
+            if (dist < 20.0) {
               console.log('HIT ------------------------');
               console.log('shotid: ' + shots[i].shotid);
               console.log('Shot-tankid: ' + shots[i].tankid);
@@ -234,11 +239,28 @@ io.sockets.on('connection',
               console.log('Tank-tankid: ' + tanks[t].tankid);
               console.log('TankX: ' + tanks[t].x);
               console.log('TankY: ' + tanks[t].y);
-                  
+              // checking to see if other tanks are within distance of nuke - Blake and Alan
+              if(shots[i].isNuke) {
+                for (var j = tanks.length - 1; j >= 0; j--) {
+                  dist = Math.sqrt( Math.pow((shots[i].x-tanks[j].x), 2) + Math.pow((shots[i].y-tanks[j].y), 2) ); 
+                  // if so, blow up tank ^.^ - Blake and Alan
+                  if(dist < 200.0) {
+                    io.sockets.emit('ServerTankRemove', tanks[j].tankid);
+                    tanks.splice(j,1);
+                  }
+                  console.log("tanks for the explosion!");
+                }
+                //Server nuke detonate - splash damage and radiation
+                io.sockets.emit('ServerNukeDetonate', shots[i]);
+
+              }
               // It was a hit, remove the tank and shot
               // and tell everyone else its gone too
-              io.sockets.emit('ServerTankRemove', tanks[t].tankid);
-              tanks.splice(t,1);
+              else {
+                io.sockets.emit('ServerTankRemove', tanks[t].tankid);
+                tanks.splice(t,1);
+              }
+
               shots.splice(i, 1);
               // just return for now to keep from unknown errors
               return;
@@ -246,6 +268,17 @@ io.sockets.on('connection',
           }
         }
 
+      });
+
+      // Client sends that a tank has been destroyed - Blake and Alan
+      socket.on('ClientTankDestroyed',
+      function(tank) {
+        for (var u = tanks.length - 1; u >= 0; u--) 
+            if (tanks[u].tankid == tank.tankid) {
+              io.sockets.emit('ServerTankRemove', tanks[u].tankid);
+              tanks.splice(u,1);
+              console.log("kabooom");
+          }
       });
 
     // Connected client moving Shots

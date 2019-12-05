@@ -2,6 +2,8 @@ var win;
 //var tank; // Just this instance of the tank
 let tanks = []; // All tanks in the game 
 let shots = []; // All shots in the game
+// Nuke spash damage array - Blake and Alan
+let nukes = [];
 var mytankid;
 var myTankIndex = -1;
 
@@ -47,6 +49,8 @@ function setup() {
   socket.on('ServerNewShot', ServerNewShot);
   // Added socket method handler - Blake and Alan
   socket.on('ServerTankHasNuke', ServerTankHasNuke);
+  socket.on('ServerNukeDetonate', ServerNukeDetonate);
+
 
   // Join (or start) a new game
   socket.on('connect', function(data) {
@@ -59,6 +63,29 @@ function setup() {
 function draw() {
     background(0);
 
+    // Testing nuke zone - Blake and Alan
+    fill('yellow');
+    rect(400,400,200,800);
+
+    // Displaying nuke explosions
+    if (nukes.length > 0) {
+      for(var d = 0; d < nukes.length; d++){
+        fill('orange');
+        ellipse(nukes[d].x, nukes[d].y, 400);
+        
+        // radiation code - Blake and Alan
+        for (var p = 0; p < tanks.length; p++) {
+          let dist = Math.sqrt( Math.pow((nukes[d].x-tanks[p].pos.x), 2) + Math.pow((nukes[d].y-tanks[p].pos.y), 2) ); 
+
+          if (dist < 200.0) {
+            //send to server tank destroyed - Blake and Alan
+            let tank = { tankid: tanks[p].tankid };
+            socket.emit('ClientTankDestroyed', tank);
+          }
+        }
+      }
+    }
+ 
     // Process shots
     for (var i = shots.length - 1; i >= 0; i--) {
       shots[i].render();
@@ -125,20 +152,22 @@ function draw() {
 
     if (key == ' ') {                       // Fire Shell
       const shotid = random(0, 50000);
-      // if the shot is a nuke
+      // if the shot is a nuke - Blake and Alan
       if (tanks[myTankIndex].hasNuke) {
+        // pushing nuke onto shot class
         shots.push(new nukeShot(shotid, tanks[myTankIndex].tankid,
           tanks[myTankIndex].pos, tanks[myTankIndex].heading));
         let newNukeShot = { x: tanks[myTankIndex].pos.x, 
           y: tanks[myTankIndex].pos.y, heading: tanks[myTankIndex].heading,
-          shotid: shotid, tankid: tanks[myTankIndex].tankid };
+          shotid: shotid, tankid: tanks[myTankIndex].tankid, isNuke: true };
         socket.emit('ClientNewNuke', newNukeShot);
+        tanks[myTankIndex].hasNuke = false;
       }
       else {
       shots.push(new Shot(shotid, tanks[myTankIndex].tankid, tanks[myTankIndex].pos, 
         tanks[myTankIndex].heading, tanks[myTankIndex].tankColor));
       let newShot = { x: tanks[myTankIndex].pos.x, y: tanks[myTankIndex].pos.y, heading: tanks[myTankIndex].heading, 
-        tankColor: tanks[myTankIndex].tankColor, shotid: shotid, tankid: tanks[myTankIndex].tankid };
+        tankColor: tanks[myTankIndex].tankColor, shotid: shotid, tankid: tanks[myTankIndex].tankid, isNuke: false };
       socket.emit('ClientNewShot', newShot);
       }
       return;
@@ -261,7 +290,12 @@ function draw() {
           }
       }
     }
-
+    function ServerNukeDetonate(shot) {
+      nukes.push(shot);
+      setTimeout(function(){ 
+        nukes.splice(0,1); 
+      }, 8000);
+    }
     // Made by Blake P and Alan F with help from Brett
     function ServerTankHasNuke(tankid) {
       // Checks to see which tanks have a nuke

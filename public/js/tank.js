@@ -80,7 +80,7 @@ function Tank(startPos, tankColor, newtankid, playerName) {
     // Moving tank
     this.moveForward = function(a) {
       var force = p5.Vector.fromAngle(this.heading);
-      force.mult(a);
+      force.mult(a * 3); // CHANGED SPEED
       this.vel.add(force);
     }
 

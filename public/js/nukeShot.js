@@ -7,21 +7,31 @@ function nukeShot(shotid, tankid, spos, angle) {
     this.color = 'yellow';
     this.shotid = shotid;
     this.tankid = tankid;
-  
+    this.heading = angle;
+    this.isNuke = true;
+
     this.update = function() {
       this.pos.add(this.vel);
     }
     
     // Render the nuke to the screen by Alan F
     this.render = function() {
-        push();
-        fill('yellow');
-        ellipse(this.pos.x, this.pos.y, 18, 18);
-        point(this.pos.x, this.pos.y);
-        pop();
-        // fill('yellow');
-        // ellipse(?, ?, ?, ?);
-        // suqare(?, ?, ?);
+      push();
+      stroke(this.color);
+      fill('yellow')
+      strokeWeight(0);
+  
+      translate(this.pos.x, this.pos.y);
+      rotate(this.heading);
+  
+      ellipse(0,0,18,18);
+      square(-9,0,18)
+      fill('black');
+      triangle(0,0,0,0+9,0+4.5,0+4.5);
+      triangle(0,0,0-4.5,0+4.5,0-4.5,0-4.5);
+      triangle(0,0,0,0-9,0+4.5,0-4.5);
+
+      pop();
     }
   
     // Check if the nuke hits another tank
