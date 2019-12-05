@@ -47,7 +47,7 @@ function setup() {
   socket.on('ServerResetAll', ServerResetAll);
   socket.on('ServerMoveShot', ServerMoveShot);
   socket.on('ServerNewShot', ServerNewShot);
-  // Added socket method handler - Blake and Alan
+  // Added socket method handlers - Blake and Alan
   socket.on('ServerTankHasNuke', ServerTankHasNuke);
   socket.on('ServerNukeDetonate', ServerNukeDetonate);
 
@@ -63,7 +63,7 @@ function setup() {
 function draw() {
     background(0);
 
-    // Testing nuke zone - Blake and Alan
+    // Testing nuke pickup zone - Blake and Alan
     fill('yellow');
     rect(400,400,200,800);
 
@@ -74,6 +74,7 @@ function draw() {
         ellipse(nukes[d].x, nukes[d].y, 400);
         
         // radiation code - Blake and Alan
+        // any tanks in the radiation zone are destroyed
         for (var p = 0; p < tanks.length; p++) {
           let dist = Math.sqrt( Math.pow((nukes[d].x-tanks[p].pos.x), 2) + Math.pow((nukes[d].y-tanks[p].pos.y), 2) ); 
 
@@ -290,6 +291,8 @@ function draw() {
           }
       }
     }
+
+    // Made by Blake and Alan
     function ServerNukeDetonate(shot) {
       nukes.push(shot);
       setTimeout(function(){ 
@@ -322,7 +325,7 @@ function draw() {
       shots.push(new Shot(data.shotid, data.tankid, createVector(data.x, data.y), data.heading, c));
     }
 
-    // Added by Alan F
+    // Added by Blake and Alan :)
     function ServerNewNuke(data) {
       // Check if shot is already in list
       if (shots !== undefined) {
