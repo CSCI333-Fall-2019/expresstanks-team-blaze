@@ -14,7 +14,7 @@ function Tank(startPos, tankColor, newtankid, playerName) {
     this.tankColor = tankColor;
     this.tankid = newtankid;
     this.playerName = playerName;
-    // tank does not start with nuke - Blake
+    // tank does not start with nuke - Blake and Alan
     this.hasNuke = false;
     // For an optional boost feature
     this.boosting = function(b) {

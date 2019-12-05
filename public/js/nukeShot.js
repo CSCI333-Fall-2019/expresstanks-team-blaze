@@ -1,5 +1,4 @@
 // nukeShot class - represents the tank shooting a nuke powerup
-// does nukeShot need a shotid?
 function nukeShot(shotid, tankid, spos, angle) {
     this.pos = createVector(spos.x, spos.y);
     this.vel = p5.Vector.fromAngle(angle);
@@ -14,7 +13,7 @@ function nukeShot(shotid, tankid, spos, angle) {
       this.pos.add(this.vel);
     }
     
-    // Render the nuke to the screen by Alan F
+    // Render the nuke to the screen by Blake and Alan
     this.render = function() {
       push();
       stroke(this.color);
@@ -51,14 +50,11 @@ function nukeShot(shotid, tankid, spos, angle) {
     // Check if the shot moves off screen.  In which case, kill it
     this.offscreen = function() {
       if (this.pos.x > width || this.pos.x < 0) {
-        //Will need to create splash damage before shot expires - Blake & Alan
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
         
         socket.emit('ClientRemoveShot', this.shotid);
         return true;
       }
       if (this.pos.y > height || this.pos.y < 0) {
-        //Will need to create splash damage before shot expires - Blake & Alan
 
         socket.emit('ClientRemoveShot', this.shotid);
         return true;

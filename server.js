@@ -254,8 +254,8 @@ io.sockets.on('connection',
                 io.sockets.emit('ServerNukeDetonate', shots[i]);
 
               }
-              // It was a hit, remove the tank and shot
-              // and tell everyone else its gone too
+              // If it was a hit, remove the tank and shot
+              // and tell everyone else it's gone too
               else {
                 io.sockets.emit('ServerTankRemove', tanks[t].tankid);
                 tanks.splice(t,1);
@@ -270,7 +270,7 @@ io.sockets.on('connection',
 
       });
 
-      // Client sends that a tank has been destroyed - Blake and Alan
+      // Client sends that its tank has been destroyed - Blake and Alan
       socket.on('ClientTankDestroyed',
       function(tank) {
         for (var u = tanks.length - 1; u >= 0; u--) 
